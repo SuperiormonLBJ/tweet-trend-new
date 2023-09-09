@@ -20,7 +20,7 @@ environment {
         stage('SonarQube analysis') {
         environment {
           //check under jenkins/tools
-          scannerHome = tool 'superiormon187-scanner'
+          scannerHome = tool 'superiormon187-sonar-scanner'
         }
         steps{
         //check under jenkins/system
