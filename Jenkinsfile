@@ -15,6 +15,20 @@ environment {
                 sh 'mvn clean deploy' // apply clean and deploy, 2 life cycles
             }
         }
+        
+        // sonar qube scanner
+        stage('SonarQube analysis') {
+        environment {
+          //check under jenkins/tools
+          scannerHome = tool 'superiormon187-scanner'
+        }
+        steps{
+        //check under jenkins/system
+        withSonarQubeEnv('superiormon187-sonarqube-server'){
+          sh "${scannerHome}/bin/sonar-scanner"
+        }
+        }
     }
+}
 }
 
