@@ -29,6 +29,7 @@ environment {
         }
         
         // sonar qube scanner
+        // sometimes its better to delete this file if alr reach the requirement
         stage('SonarQube analysis') {
         environment {
           //check under jenkins/tools
