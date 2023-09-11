@@ -68,11 +68,11 @@ environment {
                      def uploadSpec = """{
                           "files": [
                             {
-                              "pattern": "jarstaging/(*)",         // get all things from jarstaging folder[generated after build]
-                              "target": "libs-release-local/{1}",  // target path to store the artifact in JFrog 
+                              "pattern": "jarstaging/(*)",         
+                              "target": "libs-release-local/{1}",  
                               "flat": "false",
                               "props" : "${properties}",
-                              "exclusions": [ "*.sha1", "*.md5"]    // dont uplaod these
+                              "exclusions": [ "*.sha1", "*.md5"]    
                             }
                          ]
                      }"""
