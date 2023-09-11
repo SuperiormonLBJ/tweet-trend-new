@@ -65,6 +65,10 @@ environment {
                     echo '<--------------- Jar Publish Started --------------->'
                      def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"artifact-cred"// this one is the token id in jenkins
                      def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
+                     // can not commnent in "files": [] below, cuz would not see as comments
+                     // pattern: file to upload from jenkins workspace location
+                     // target: place to store on JFrog
+                     // exclusion: exclude following files
                      def uploadSpec = """{
                           "files": [
                             {
