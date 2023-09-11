@@ -39,6 +39,21 @@ environment {
         }
         }
     }
-}
+        stage("Quality Gate"){
+            steps {
+                script {
+                    // groovy scripts
+                    // wait for 1hour from sonarqube response, this value based on the code itself
+                    timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+                    def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+                    if (qg.status != 'OK') {
+                        // if not passing the quality gate then make this build fail
+                        error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                    }
+                    }
+                }
+            }    
+        }
+    }
 }
 
