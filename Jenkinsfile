@@ -12,7 +12,17 @@ environment {
         stage('Build') {
             steps {
                 // git branch: 'main', url: 'https://github.com/SuperiormonLBJ/tweet-trend-new.git' //can use pipeline syntax guide to generate this line 
-                sh 'mvn clean deploy' // apply clean and deploy, 2 life cycles
+                echo "--------------------------------- Build Start ------------------------------------"
+                sh 'mvn clean deploy -Dmaven.test.skip=true' // apply clean and deploy, 2 life cycles, and now skip test part
+                echo "--------------------------------- Build Finish ------------------------------------"
+            }
+        }
+
+        stage("test"){
+            steps{
+                echo "--------------------------------- Unit test Start ------------------------------------"
+                sh 'mvn surefire-report:report' // 
+                echo "--------------------------------- Unit test Finish ------------------------------------"
             }
         }
         
