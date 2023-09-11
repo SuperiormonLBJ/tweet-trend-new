@@ -58,6 +58,7 @@ environment {
             }    
         }
         // uploat the aftifact outcome in workspace to JFrog
+        // for this project artifact is .jar 
         stage("Jar Publish") {
             steps {
                 script {
