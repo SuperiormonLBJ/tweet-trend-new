@@ -1,3 +1,5 @@
+def registry = 'https://beiji.jfrog.io' // define the url path to JFrog
+
 pipeline { 
     agent {
         node {
@@ -54,6 +56,32 @@ environment {
                 }
             }    
         }
+        // uploat the aftifact outcome in workspace to JFrog
+        stage("Jar Publish") {
+            steps {
+                script {
+                    echo '<--------------- Jar Publish Started --------------->'
+                     def server = Artifactory.newServer url:registry+"/artifactory" ,  credentialsId:"artfiact-cred"// this one is the token id in jenkins
+                     def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
+                     def uploadSpec = """{
+                          "files": [
+                            {
+                              "pattern": "jarstaging/(*)",         // get all things from jarstaging folder[generated after build]
+                              "target": "libs-release-local/{1}",  // target path to store the artifact in JFrog 
+                              "flat": "false",
+                              "props" : "${properties}",
+                              "exclusions": [ "*.sha1", "*.md5"]    // dont uplaod these
+                            }
+                         ]
+                     }"""
+                     def buildInfo = server.upload(uploadSpec)
+                     buildInfo.env.collect()
+                     server.publishBuildInfo(buildInfo)
+                     echo '<--------------- Jar Publish Ended --------------->'  
+            
+            }
+        }   
+    }
     }
 }
 
